@@ -1,0 +1,7 @@
+python-telegram-bot==20.3
+celery
+redis
+weasyprint
+python-nmap
+python-owasp-zap-v2.4
+requests
