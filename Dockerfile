@@ -1,8 +1,26 @@
 FROM python:3.10-slim
-RUN apt update && apt install -y nmap curl openjdk-11-jre-headless weasyprint
-RUN curl -sL https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2.14.0_Linux.tar.gz \
-    | tar xz -C /opt && ln -s /opt/ZAP_2.14.0/zap.sh /usr/bin/zap.sh
+
+# Install system packages
+RUN apt update && apt install -y \
+    nmap \
+    curl \
+    openjdk-11-jre-headless \
+    weasyprint \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libgdk-pixbuf2.0-0 \
+    libcairo2 \
+    && apt clean
+
+# Set working directory
 WORKDIR /app
-COPY . /app
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
+COPY . .
+
+# Install Python dependencies
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Run bot
 CMD ["python", "bot.py"]
